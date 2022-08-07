@@ -1,8 +1,10 @@
 #include <windows.h>
+
 #include <d2d1.h>
 #pragma comment(lib, "d2d1")
 
 #include "BaseWindow.h"
+#include "Time.h"
 
 template <class T> void SafeRelease(T **ppT)
 {
@@ -126,6 +128,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
                    _In_ int nCmdShow)
 {
     MainWindow win;
+    Time time;
 
     if (!win.Create(L"Circle", WS_OVERLAPPEDWINDOW))
     {
@@ -136,10 +139,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 
     // Run the message loop.
     MSG msg = { };
-    while (GetMessage(&msg, NULL, 0, 0) > 0)
+    while (true)
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+                break;
+
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+
+        time.Update();
     }
 
     return 0;
