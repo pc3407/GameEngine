@@ -5,11 +5,14 @@
     <ClCompile Include="Core.cpp">
       <Filter>02. Core</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>03. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
       <Filter>03. Manager\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>04.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>03. Manager\TimeMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,14 +22,17 @@
     <ClInclude Include="Core.h">
       <Filter>02. Core</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>03. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="SceneMgr.h">
       <Filter>03. Manager\SceneMgr</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>04.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>03. Manager\TimeMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,16 +48,22 @@
     <Filter Include="03. Manager\SceneMgr">
       <UniqueIdentifier>{85002072-25fd-492a-8ba2-5a20d459e616}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Resource">
+    <Filter Include="05.Resource">
       <UniqueIdentifier>{7ba7d7d5-44c8-4b33-8bc6-92ec3fa615fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Resource\Shader">
+    <Filter Include="05.Resource\Shader">
       <UniqueIdentifier>{abe47122-0bf9-4e4e-9ddd-ec3d08b5f902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Object">
+      <UniqueIdentifier>{4e763db2-5805-4b06-8915-7854dd21a037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\TimeMgr">
+      <UniqueIdentifier>{4a552c39-be76-4b9a-ae0a-36ffbd172662}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Box.hlsl">
-      <Filter>04.Resource\Shader</Filter>
+      <Filter>05.Resource\Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
