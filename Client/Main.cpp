@@ -1,5 +1,6 @@
-#include <windows.h>
+#include "Common.h"
 #include "Core.h"
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -17,6 +18,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
                    _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow)
 {
+#if _DEBUG
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
     WNDCLASS wc = { 0 };
 
     wc.lpfnWndProc = WindowProc;
