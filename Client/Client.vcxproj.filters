@@ -11,8 +11,11 @@
     <ClCompile Include="Quad.cpp">
       <Filter>04.Object</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="TimeMgr.cpp">
       <Filter>03. Manager\TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>03. Manager\KeyMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,8 +34,11 @@
     <ClInclude Include="Quad.h">
       <Filter>04.Object</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="TimeMgr.h">
       <Filter>03. Manager\TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>03. Manager\KeyMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +65,9 @@
     </Filter>
     <Filter Include="03. Manager\TimeMgr">
       <UniqueIdentifier>{4a552c39-be76-4b9a-ae0a-36ffbd172662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\KeyMgr">
+      <UniqueIdentifier>{b010fd42-7cd0-49a3-b2ac-aeeccaf51324}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
