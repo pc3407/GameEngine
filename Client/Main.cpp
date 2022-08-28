@@ -21,47 +21,55 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 #if _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-    WNDCLASS wc = { 0 };
+    WNDCLASSEX wcex;
+    ZeroMemory(&wcex, sizeof(wcex));
 
-    wc.lpfnWndProc = WindowProc;
-    wc.hInstance = GetModuleHandle(NULL);
-    wc.lpszClassName = L"Game";
+    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = WindowProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = 0;
+    wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = NULL;
+    wcex.lpszClassName = L"WindowClass";
+    wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-    assert(RegisterClass(&wc));
+    assert(RegisterClassEx(&wcex));
 
-    HWND hWnd = CreateWindowEx(0,
-                               wc.lpszClassName, wc.lpszClassName,
-                               WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-                               0, 0,
-                               CW_USEDEFAULT, CW_USEDEFAULT,
-                               NULL,
-                               NULL,
-                               GetModuleHandle(NULL),
-                               NULL
+    HWND hWnd = CreateWindow(wcex.lpszClassName, L"Game",
+                             WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+                             0, 0,
+                             CW_USEDEFAULT, CW_USEDEFAULT,
+                             NULL,
+                             NULL,
+                             NULL,
+                             NULL
     );
 
     assert(hWnd != NULL);
 
-    ShowWindow(hWnd, SW_SHOWNORMAL);
+    ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
     Core::Get()->init(hWnd);
 
-    MSG msg = { };
+    MSG msg;
     while (true)
     {
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             if (msg.message == WM_QUIT)
-            {
                 break;
-            }
 
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
 
         Core::Get()->progress();
+
     }
 
     return 0;
