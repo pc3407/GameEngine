@@ -1,5 +1,11 @@
 #pragma once
 
+struct Vertex
+{
+	XMFLOAT3 Position;
+	XMFLOAT4 Color;
+};
+
 class Quad
 {
 public:
@@ -7,14 +13,16 @@ public:
 	~Quad();
 
 public:
+	void update();
 	void render();
 
 private:
-	ID3D11Buffer*		m_pVertexBuffer;
+	Vertex				m_vertices[4];
 	UINT				m_vertexCount;
+	ID3D11Buffer*		m_pVertexBuffer;
 
-	ID3D11Buffer*		m_pIndexBuffer;
 	UINT				m_indexCount;
+	ID3D11Buffer*		m_pIndexBuffer;
 
 	ID3D11InputLayout*	m_pInputLayout;
 

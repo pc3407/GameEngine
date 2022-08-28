@@ -3,31 +3,23 @@
 
 #include "SceneMgr.h"
 
-struct Vertex
-{
-	XMFLOAT3 Position;
-	XMFLOAT4 Color;
-};
-
 Quad::Quad()
 	: m_vertexCount(0)
 	, m_indexCount(0)
 {
-	Vertex vertices[4];
-
-	vertices[0].Position = XMFLOAT3(-0.5f, 0.5f, 0.0f);
-	vertices[0].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertices[1].Position = XMFLOAT3(+0.5f, 0.5f, 0.0f);
-	vertices[1].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertices[2].Position = XMFLOAT3(-0.5f, -0.5f, 0.0f);
-	vertices[2].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertices[3].Position = XMFLOAT3(0.5f, -0.5f, 0.0f);
-	vertices[3].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	m_vertexCount = ARRAYSIZE(vertices);
+	m_vertices[0].Position = XMFLOAT3(-0.5f, 0.5f, 0.0f);
+	m_vertices[0].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	m_vertices[1].Position = XMFLOAT3(+0.5f, 0.5f, 0.0f);
+	m_vertices[1].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	m_vertices[2].Position = XMFLOAT3(-0.5f, -0.5f, 0.0f);
+	m_vertices[2].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	m_vertices[3].Position = XMFLOAT3(0.5f, -0.5f, 0.0f);
+	m_vertices[3].Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	m_vertexCount = ARRAYSIZE(m_vertices);
 
 	D3D11_BUFFER_DESC desc;
 	desc.ByteWidth = sizeof(Vertex) * m_vertexCount;
@@ -37,11 +29,11 @@ Quad::Quad()
 	desc.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA initData;
-	initData.pSysMem = vertices;
+	initData.pSysMem = m_vertices;
 	initData.SysMemPitch = 0;
 	initData.SysMemSlicePitch = 0;
 
-	HRESULT hr = SceneMgr::Get()->device()->CreateBuffer(&desc, &initData, &m_pVertexBuffer);
+	HRESULT hr = SceneMgr::Get()->GetDevice()->CreateBuffer(&desc, &initData, &m_pVertexBuffer);
 	assert(SUCCEEDED(hr));
 
 	UINT indices[6] = { 0, 1, 2, 2, 1, 3 };
@@ -58,7 +50,7 @@ Quad::Quad()
 	initData.SysMemPitch = 0;
 	initData.SysMemSlicePitch = 0;
 
-	hr = SceneMgr::Get()->device()->CreateBuffer(&desc, &initData, &m_pIndexBuffer);
+	hr = SceneMgr::Get()->GetDevice()->CreateBuffer(&desc, &initData, &m_pIndexBuffer);
 	assert(SUCCEEDED(hr));
 
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -77,7 +69,7 @@ Quad::Quad()
 
 	assert(SUCCEEDED(hr));
 
-	hr = SceneMgr::Get()->device()->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &m_pVertexShader);
+	hr = SceneMgr::Get()->GetDevice()->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &m_pVertexShader);
 	assert(SUCCEEDED(hr));
 
 	ID3DBlob* psBlob = nullptr;
@@ -91,7 +83,7 @@ Quad::Quad()
 
 	assert(SUCCEEDED(hr));
 
-	hr = SceneMgr::Get()->device()->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, &m_pPixelShader);
+	hr = SceneMgr::Get()->GetDevice()->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, &m_pPixelShader);
 	assert(SUCCEEDED(hr));
 
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -102,13 +94,23 @@ Quad::Quad()
 			 D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	SceneMgr::Get()->device()->CreateInputLayout(layout, ARRAYSIZE(layout), vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &m_pInputLayout);
+	SceneMgr::Get()->GetDevice()->CreateInputLayout(layout, ARRAYSIZE(layout), vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &m_pInputLayout);
 	assert(SUCCEEDED(hr));
 }
 
 Quad::~Quad()
 {
+	
+}
 
+void Quad::update()
+{
+	if (KeyMgr::Get()->GetPress(Key::Right))
+		m_vertices[3].Position.x += 2.0f * TimeMgr::Get()->GetDelta();
+	else if (KeyMgr::Get()->GetPress(Key::Left))
+		m_vertices[3].Position.x -= 2.0f * TimeMgr::Get()->GetDelta();
+
+	SceneMgr::Get()->GetDC()->UpdateSubresource(m_pVertexBuffer, 0, NULL, m_vertices, sizeof(Vertex) * m_vertexCount, 0);
 }
 
 void Quad::render()
@@ -116,14 +118,14 @@ void Quad::render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
-	SceneMgr::Get()->dc()->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-	SceneMgr::Get()->dc()->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	SceneMgr::Get()->GetDC()->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	SceneMgr::Get()->GetDC()->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	SceneMgr::Get()->dc()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	SceneMgr::Get()->dc()->IASetInputLayout(m_pInputLayout);
+	SceneMgr::Get()->GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	SceneMgr::Get()->GetDC()->IASetInputLayout(m_pInputLayout);
 
-	SceneMgr::Get()->dc()->VSSetShader(m_pVertexShader, NULL, 0);
-	SceneMgr::Get()->dc()->PSSetShader(m_pPixelShader, NULL, 0);
+	SceneMgr::Get()->GetDC()->VSSetShader(m_pVertexShader, NULL, 0);
+	SceneMgr::Get()->GetDC()->PSSetShader(m_pPixelShader, NULL, 0);
 
-	SceneMgr::Get()->dc()->DrawIndexed(m_indexCount, 0, 0);
+	SceneMgr::Get()->GetDC()->DrawIndexed(6, 0, 0);
 }
