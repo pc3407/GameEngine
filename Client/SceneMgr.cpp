@@ -1,6 +1,8 @@
 #include "Common.h"
 #include "SceneMgr.h"
 
+#include "Core.h"
+
 #include "Quad.h"
 
 SceneMgr::SceneMgr()
@@ -24,14 +26,19 @@ SceneMgr::~SceneMgr()
 	SAFE_DELETE(m_pQuad);
 }
 
-void SceneMgr::init(HWND hWnd, int width, int height)
+void SceneMgr::init(int width, int height)
 {
+	HWND hWnd = Core::Get()->GetHandle();
+
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
 	sd.BufferDesc.Width = width;
 	sd.BufferDesc.Height = height;
-	sd.BufferDesc.RefreshRate.Numerator = 60;
-	sd.BufferDesc.RefreshRate.Denominator = 1;
+	// V-sync on
+	//sd.BufferDesc.RefreshRate.Numerator = 60;
+	//sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferDesc.RefreshRate.Numerator = 0;
+	sd.BufferDesc.RefreshRate.Denominator = 0;
 	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
@@ -115,6 +122,11 @@ void SceneMgr::init(HWND hWnd, int width, int height)
 	m_pQuad = new Quad();
 }
 
+void SceneMgr::update()
+{
+	m_pQuad->update();
+}
+
 void SceneMgr::render()
 {
 	FLOAT color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -123,5 +135,5 @@ void SceneMgr::render()
 
 	m_pQuad->render();
 
-	m_pSwapChain->Present(1, 0);
+	m_pSwapChain->Present(0, 0);
 }

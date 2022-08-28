@@ -10,20 +10,22 @@ private:
 	SceneMgr();
 	~SceneMgr();
 
+private:
+	IDXGISwapChain*			m_pSwapChain;
+	ID3D11Device*			m_pDevice;
+	ID3D11DeviceContext*	m_pImmediateContext;
+
+	ID3D11RenderTargetView* m_pRenderTargetView;
+	ID3D11DepthStencilView* m_pDepthStencilView;
+
+	Quad* m_pQuad;
+
 public:
-	void init(HWND hWnd, int width, int height);
+	void init(int width, int height);
+	void update();
 	void render();
 
-	ID3D11Device* device() { return m_pDevice; }
-	ID3D11DeviceContext* dc() { return m_pImmediateContext; }
-	
-private:
-	IDXGISwapChain*				m_pSwapChain;
-	ID3D11Device*				m_pDevice;
-	ID3D11DeviceContext*		m_pImmediateContext;
-
-	ID3D11RenderTargetView*		m_pRenderTargetView;
-	ID3D11DepthStencilView*		m_pDepthStencilView;
-
-	Quad*						m_pQuad;
+public:
+	ID3D11Device* GetDevice() { return m_pDevice; }
+	ID3D11DeviceContext* GetDC() { return m_pImmediateContext; }
 };
