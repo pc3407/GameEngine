@@ -1,37 +1,57 @@
-#include "Time.h"
+#include "Common.h"
+#include "TimeMgr.h"
+
+#include "Core.h"
 
 TimeMgr::TimeMgr()
-	: m_StartingTime(0)
-	, m_EndingTime(0)
-	, m_DeltaTime(0.)
-	, m_FrameCount(0)
-	, m_RunningTime(0)
-	, m_FPS(0)
+	: m_frequency{}
+	, m_startingTime{}
+	, m_endingTime{}
+	, m_deltaTime(0.)
+	, m_frameCount(0)
+	, m_runningTime(0)
+	, m_fps(0)
 {
-	QueryPerformanceFrequency((LARGE_INTEGER*)&m_Frequency);
 
-	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartingTime);
 }
 
 TimeMgr::~TimeMgr()
 {
 }
 
+void TimeMgr::init()
+{
+	QueryPerformanceFrequency(&m_frequency);
+	QueryPerformanceCounter(&m_startingTime);
+}
+
 void TimeMgr::update()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&m_EndingTime);
+	QueryPerformanceCounter(&m_endingTime);
 
-	m_DeltaTime = (double)(m_EndingTime - m_StartingTime) / (double)m_Frequency;
+	m_deltaTime = (double)(m_endingTime.QuadPart - m_startingTime.QuadPart) / (double)m_frequency.QuadPart;
 
-	m_StartingTime = m_EndingTime;
+	m_startingTime = m_endingTime;
 
-	m_FrameCount++;
-	m_RunningTime += m_DeltaTime;
+#ifdef _DEBUG
+	if (m_deltaTime > (1. / 60.))
+		m_deltaTime = (1. / 60.);
+#endif
+}
 
-	if (m_RunningTime >= 1.)
+void TimeMgr::render()
+{
+	m_frameCount++;
+	m_runningTime += m_deltaTime;
+
+	if (m_runningTime >= 1.)
 	{
-		m_FPS = m_FrameCount;
-		m_RunningTime = 0;
-		m_FrameCount = 0;
+		m_fps = m_frameCount;
+		m_runningTime = 0;
+		m_frameCount = 0;
 	}
+
+	wchar_t szBuffer[255] = {};
+	swprintf_s(szBuffer, L"FPS : %d, DT : %f", m_fps, m_deltaTime);
+	SetWindowText(Core::Get()->GetHandle(), szBuffer);
 }

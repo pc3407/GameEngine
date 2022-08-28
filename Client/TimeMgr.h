@@ -3,25 +3,30 @@
 #include <stdint.h>
 #include <stdio.h>
 
-class TimeMgr
+class TimeMgr : public Singleton<TimeMgr>
 {
-public:
+	friend class Singleton<TimeMgr>;
+
+private:
 	TimeMgr();
 	~TimeMgr();
 
-public:
-	void update();
-
-	uint32_t	GetFPS() { return m_FPS; }
 
 private:
-	int64_t		m_Frequency;
-	int64_t		m_StartingTime;
-	int64_t		m_EndingTime;
+	LARGE_INTEGER	m_frequency;
+	LARGE_INTEGER	m_startingTime;
+	LARGE_INTEGER	m_endingTime;
 
-	double		m_DeltaTime;
+	double			m_deltaTime;
 
-	uint32_t	m_FrameCount;
-	double		m_RunningTime;
-	uint32_t	m_FPS;
+	UINT			m_frameCount;
+	double			m_runningTime;
+	UINT			m_fps;
+
+public:
+	void init();
+	void update();
+	void render();
+
+	float GetDelta() { return (float)m_deltaTime; }
 };
