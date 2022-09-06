@@ -3,6 +3,8 @@
 
 enum class Key
 {
+	F1,
+
 	Up,
 	Down,
 	Left,
@@ -16,13 +18,13 @@ enum class Key
 	Last,
 };
 
-class KeyMgr : public Singleton<KeyMgr>
+class Keyboard : public Singleton<Keyboard>
 {
-	friend class Singleton<KeyMgr>;
+	friend class Singleton<Keyboard>;
 
 private:
-	KeyMgr();
-	~KeyMgr();
+	Keyboard();
+	~Keyboard();
 
 private:
 	enum class KeyState

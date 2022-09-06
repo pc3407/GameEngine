@@ -1,8 +1,10 @@
 #include "Common.h"
-#include "KeyMgr.h"
+#include "Keyboard.h"
 
 UINT g_keys[(UINT)Key::Last] =
 {
+	VK_F1,
+
 	VK_UP,
 	VK_DOWN,
 	VK_LEFT,
@@ -14,15 +16,15 @@ UINT g_keys[(UINT)Key::Last] =
 	'D',
 };
 
-KeyMgr::KeyMgr()
+Keyboard::Keyboard()
 {
 }
 
-KeyMgr::~KeyMgr()
+Keyboard::~Keyboard()
 {
 }
 
-void KeyMgr::init()
+void Keyboard::init()
 {
 	for (UINT i = 0; i < (UINT)Key::Last; i++)
 	{
@@ -35,7 +37,7 @@ void KeyMgr::init()
 	}
 }
 
-void KeyMgr::update()
+void Keyboard::update()
 {
 	HWND hWnd = GetFocus();
 
