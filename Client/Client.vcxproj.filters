@@ -8,14 +8,26 @@
     <ClCompile Include="SceneMgr.cpp">
       <Filter>03. Manager\SceneMgr</Filter>
     </ClCompile>
+    <ClCompile Include="RasterizerState.cpp">
+      <Filter>State\RasterizerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>04. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>04. Object\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>04.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeMgr.cpp">
-      <Filter>03. Manager\TimeMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyMgr.cpp">
-      <Filter>03. Manager\KeyMgr</Filter>
+      <Filter>06. Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,14 +43,26 @@
     <ClInclude Include="Common.h">
       <Filter>01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizerState.h">
+      <Filter>State\RasterizerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>04. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>04. Object\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>04.Object</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeMgr.h">
-      <Filter>03. Manager\TimeMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyMgr.h">
-      <Filter>03. Manager\KeyMgr</Filter>
+      <Filter>06. Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,25 +78,42 @@
     <Filter Include="03. Manager\SceneMgr">
       <UniqueIdentifier>{85002072-25fd-492a-8ba2-5a20d459e616}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.Resource">
-      <UniqueIdentifier>{7ba7d7d5-44c8-4b33-8bc6-92ec3fa615fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05.Resource\Shader">
-      <UniqueIdentifier>{abe47122-0bf9-4e4e-9ddd-ec3d08b5f902}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Object">
+    <Filter Include="04. Object">
       <UniqueIdentifier>{4e763db2-5805-4b06-8915-7854dd21a037}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\TimeMgr">
-      <UniqueIdentifier>{4a552c39-be76-4b9a-ae0a-36ffbd172662}</UniqueIdentifier>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{1645c589-3f0a-4267-8a86-a3319980f267}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\KeyMgr">
-      <UniqueIdentifier>{b010fd42-7cd0-49a3-b2ac-aeeccaf51324}</UniqueIdentifier>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{ed61895b-37db-41aa-89a7-44e9a3dca07a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{9547740b-0cc9-4861-a21f-38fe3a2cd868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State\RasterizerState">
+      <UniqueIdentifier>{6a3be9f5-33e1-4deb-8169-9029bb45cb9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Object\Player">
+      <UniqueIdentifier>{64cbe719-50c3-4175-9a82-78a4d8abe3e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Resource">
+      <UniqueIdentifier>{7ba7d7d5-44c8-4b33-8bc6-92ec3fa615fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Resource\Shader">
+      <UniqueIdentifier>{abe47122-0bf9-4e4e-9ddd-ec3d08b5f902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component">
+      <UniqueIdentifier>{7d99c556-d741-4d0f-886a-094ce20b12eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Box.hlsl">
-      <Filter>05.Resource\Shader</Filter>
+      <Filter>05. Resource\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common.hlsli">
+      <Filter>05. Resource\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
