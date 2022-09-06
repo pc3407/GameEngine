@@ -1,14 +1,5 @@
-//--------------------------------------------------------------------------------------
-// File: BasicHLSL11_VS.hlsl
-//
-// The vertex shader file for the BasicHLSL11 sample.  
-// 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-//--------------------------------------------------------------------------------------
+#include "Common.hlsli"
 
-//--------------------------------------------------------------------------------------
-// Input / Output structures
-//--------------------------------------------------------------------------------------
 struct VS_INPUT
 {
 	float4 Position : POSITION;
@@ -28,13 +19,18 @@ VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
     
-	output.Position = input.Position;
+	output.Position = mul(input.Position, World);
+	output.Position = mul(output.Position, View);
+	output.Position = mul(output.Position, Projection);
+	
 	output.Color = input.Color;
     
 	return output;
 }
 
-
+//--------------------------------------------------------------------------------------
+// Pixel Shader
+//--------------------------------------------------------------------------------------
 float4 PS(VS_OUTPUT output) : SV_TARGET
 {
 	return output.Color;
